@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-VALID_LICENSES = {"TEST123": True}
+VALID_LICENSES = {"TEST123": True, "USERABC": True}
 
 @app.route("/validate", methods=["POST"])
 def validate():
