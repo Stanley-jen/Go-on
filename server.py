@@ -1,13 +1,16 @@
-from fastapi import FastAPI
+from flask import Flask, request, jsonify
+import os
 
-app = FastAPI()
+app = Flask(__name__)
 
-# Temporary: hardcoded valid codes (for testing)
-VALID_CODES = {"TEST123", "PAID999", "GOON777"}
-
-@app.get("/validate")
-def validate(code: str):
-    if code in VALID_CODES:
-        return {"status": "valid"}
+@app.route("/validate", methods=["GET"])
+def validate():
+    code = request.args.get("code")
+    if code == "TEST123":
+        return jsonify({"valid": True})
     else:
-        return {"status": "invalid"}
+        return jsonify({"valid": False})
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host="0.0.0.0", port=port)
