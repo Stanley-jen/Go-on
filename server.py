@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -7,9 +7,13 @@ def validate():
     code = request.args.get("code")
     if code == "TEST123":
         return jsonify({"status": "success", "code": code})
-    else:
-        return jsonify({"status": "error", "message": "Subscription expired"})
+    return jsonify({"status": "error", "code": code})
 
-# Only for local testing
+# Optional: default route to show server is alive
+@app.route("/")
+def home():
+    return jsonify({"status": "running"})
+
 if __name__ == "__main__":
-    app.run()
+    # Port is ignored by Railway when using Gunicorn
+    app.run(host="0.0.0.0", port=8080)
