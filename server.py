@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import os
 
 app = Flask(__name__)
 
@@ -9,11 +10,6 @@ def validate():
         return jsonify({"status": "success", "code": code})
     return jsonify({"status": "error", "code": code})
 
-# Optional: default route to show server is alive
-@app.route("/")
-def home():
-    return jsonify({"status": "running"})
-
 if __name__ == "__main__":
-    # Port is ignored by Railway when using Gunicorn
-    app.run(host="0.0.0.0", port=8080)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
